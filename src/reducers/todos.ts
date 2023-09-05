@@ -1,7 +1,5 @@
 import {
   Action,
-  DeleteTodoAction,
-  FetchTodosAction,
   Todo,
   ActionTypes,
 } from '../actions';
