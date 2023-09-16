@@ -7,9 +7,20 @@ interface AppProps {
   todos: Todo[];
   fetchTodos(): any;
 }
-class _App extends React.Component<AppProps> {
+
+interface AppState {
+  // component level states
+  fetching: boolean;
+}
+class _App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = { fetching: false };
+  }
+
   onButtonClick = (): void => {
     this.props.fetchTodos();
+    this.setState({ fetching: true });
   };
 
   renderList(): JSX.Element[] {
