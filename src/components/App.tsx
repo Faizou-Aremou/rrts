@@ -25,19 +25,29 @@ class _App extends React.Component<AppProps, AppState> {
   };
   onTodoClick = (id: number): void => {
     this.props.deleteTodo(id);
+  };
+  componentDidUpdate(prevProps: AppProps) {
+    if (!prevProps.todos.length && this.props.todos.length) {
+      this.setState({ fetching: false });
+    }
   }
 
   renderList(): JSX.Element[] {
     return this.props.todos.map((todo) => {
-      return <div onClick={() => this.onTodoClick(todo.id)}  key={todo.id}> {todo.title}</div>;
+      return (
+        <div onClick={() => this.onTodoClick(todo.id)} key={todo.id}>
+          {' '}
+          {todo.title}
+        </div>
+      );
     });
   }
 
   render(): React.ReactNode {
     return (
       <div>
-        {' '}
         <button onClick={this.onButtonClick}> Fetch </button>
+        {this.state.fetching? 'LOADING....': null}
         {this.renderList()}
       </div>
     );
@@ -48,4 +58,4 @@ const mapStateToProps = ({ todos }: StoreState): { todos: Todo[] } => {
   return { todos };
 };
 
-export const App = connect(mapStateToProps, { fetchTodos, deleteTodo  })(_App);
+export const App = connect(mapStateToProps, { fetchTodos, deleteTodo })(_App);
